@@ -1,4 +1,4 @@
-package sk.mamrakm.CoffeeMachine
+package sk.mamrakm.coffeemachine
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
