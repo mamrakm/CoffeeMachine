@@ -1,6 +1,5 @@
 package sk.mamrakm.CoffeeMachine.Users
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import sk.mamrakm.CoffeeMachine.CaffeinePlasmaValue
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
