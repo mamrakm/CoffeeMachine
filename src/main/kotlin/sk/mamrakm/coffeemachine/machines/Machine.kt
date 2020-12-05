@@ -7,7 +7,7 @@ import javax.persistence.Id
 
 @Entity
 data class Machine(
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE) val id: Long,
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long,
     val name: String,
     val caffeine: Int
 )

@@ -2,19 +2,31 @@ package sk.mamrakm.coffeemachine
 
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.bind.annotation.RestController
-import sk.mamrakm.coffeemachine.error.responses.UserNotFound
+import sk.mamrakm.coffeemachine.error.responses.DrinkerNotFound
 import sk.mamrakm.coffeemachine.machines.Machine
 import sk.mamrakm.coffeemachine.repository.interfaces.CaffeineConsumerTable
 import sk.mamrakm.coffeemachine.repository.interfaces.MachineTable
-import sk.mamrakm.coffeemachine.stats.Stats
+import sk.mamrakm.coffeemachine.repository.interfaces.StatOperations
+import sk.mamrakm.coffeemachine.repository.interfaces.StatsData
 import sk.mamrakm.coffeemachine.users.CoffeeDrinker
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @RestController
-class RestController(val coffeeConsumers: CaffeineConsumerTable, val machines: MachineTable, val stats: Stats) {
+class RestController(
+    val coffeeConsumers: CaffeineConsumerTable,
+    val machines: MachineTable,
+    val stats: StatOperations
+) {
 
     @GetMapping("/machine")
     fun getAllMachines(): MutableList<Machine> {
         return machines.findAll()
+    }
+
+    @GetMapping("/user")
+    fun getAllUsers(): MutableList<CoffeeDrinker> {
+        return coffeeConsumers.findAll()
     }
 
     @PutMapping("/user/request")
@@ -32,8 +44,12 @@ class RestController(val coffeeConsumers: CaffeineConsumerTable, val machines: M
         @PathVariable("user-id") userId: Long,
         @PathVariable("machine-id") machineId: Long
     ) {
-        val user = coffeeConsumers.findById(userId).orElseThrow { UserNotFound(userId) }
-        val machine = machines.findById(machineId).orElseThrow { UserNotFound(machineId) }
+        val drinker = coffeeConsumers.findById(userId).orElseThrow { DrinkerNotFound(userId) }
+        val machine = machines.findById(machineId).orElseThrow { DrinkerNotFound(machineId) }
+
+        val dateTime = LocalDateTime.now()
+        dateTime.format(DateTimeFormatter.ISO_DATE_TIME)
+        stats.addDrinker(StatsData(drinker, machine, machine.caffeine, dateTime))
     }
 
     @PutMapping("/coffee/buy/{user-id}/{machine}")

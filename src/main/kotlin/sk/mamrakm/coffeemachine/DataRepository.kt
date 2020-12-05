@@ -10,7 +10,7 @@ import sk.mamrakm.coffeemachine.repository.interfaces.MachineTable
 
 @Configuration
 class DataRepository {
-    val log: Logger = LoggerFactory.getLogger(DataRepository::class.java)
+    private val log: Logger = LoggerFactory.getLogger(DataRepository::class.java)
 
     @Bean
     fun initMachineDatabase(MachineTable: MachineTable): CommandLineRunner {
