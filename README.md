@@ -15,5 +15,5 @@ Java installed you can download the [AdoptOpenJDK 8](https://github.com/AdoptOpe
 ## How to run
 
 This application uses *Gradle* as build automation tool. Gradle is very simple and all you have to do is to run this 
-command in root application directory `./gradlew.bat bootRun` (`./gradlew bootRun` on _Linux_ or _WSL_) this command 
+command in root application directory (_Powershell_ or _cmd.exe_ on _Windows 10_)`gradlew.bat bootRun` (`./gradlew bootRun` on _Linux_ or _WSL_) this command 
 automatically downloads and installs Gradle of specific version to your system if it is not already present on your system.
