@@ -10,7 +10,9 @@ import sk.mamrakm.coffeemachine.repository.interfaces.StatOperations
 import sk.mamrakm.coffeemachine.repository.interfaces.StatsData
 import sk.mamrakm.coffeemachine.users.CoffeeDrinker
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 @RestController
 class RestController(
@@ -49,17 +51,30 @@ class RestController(
 
         val dateTime = LocalDateTime.now()
         dateTime.format(DateTimeFormatter.ISO_DATE_TIME)
-        stats.addDrinker(StatsData(drinker, machine, machine.caffeine, dateTime))
+        stats.addDrinker(
+            StatsData(
+                drinker,
+                machine,
+                machine.caffeine,
+                Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant())
+            )
+        )
     }
 
     @PutMapping("/coffee/buy/{user-id}/{machine}")
-    fun buyCoffeeFromMachineAtTime() {
-
+    fun buyCoffeeFromMachineAtTime(
+        @RequestBody buyCoffeeFromMachine: BuyCoffeeFromMachineJSON,
+        @PathVariable("user-id") userId: Long,
+        @PathVariable("machine") machineId: Long
+    ) {
+        val drinker = coffeeConsumers.findById(userId).orElseThrow { DrinkerNotFound(userId) }
+        val machine = machines.findById(machineId).orElseThrow { DrinkerNotFound(machineId) }
+        stats.addDrinker(StatsData(drinker, machine, machine.caffeine, buyCoffeeFromMachine.timestamp as Date))
     }
 
     @GetMapping("/stats/coffee")
-    fun getCoffeeStats() {
-
+    fun getCoffeeStats(): MutableList<StatsData> {
+        return stats.getAllDrinkers()
     }
 
     @GetMapping("/stats/coffee/machine/{id}")
