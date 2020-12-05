@@ -9,5 +9,5 @@ import javax.persistence.Id
 data class Machine(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long,
     val name: String,
-    val caffeine: Int
+    val caffeine: Double
 )

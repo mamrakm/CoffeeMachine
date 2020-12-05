@@ -8,6 +8,7 @@ import sk.mamrakm.coffeemachine.repository.interfaces.CaffeineConsumerTable
 import sk.mamrakm.coffeemachine.repository.interfaces.MachineTable
 import sk.mamrakm.coffeemachine.repository.interfaces.StatOperations
 import sk.mamrakm.coffeemachine.repository.interfaces.StatsData
+import sk.mamrakm.coffeemachine.stats.DrugPlasmaLevelHistory
 import sk.mamrakm.coffeemachine.users.CoffeeDrinker
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -48,7 +49,6 @@ class RestController(
     ) {
         val drinker = coffeeConsumers.findById(userId).orElseThrow { DrinkerNotFound(userId) }
         val machine = machines.findById(machineId).orElseThrow { DrinkerNotFound(machineId) }
-        drinker.caffeinePlasmaLevel += machine.caffeine
         val dateTime = LocalDateTime.now()
         dateTime.format(DateTimeFormatter.ISO_DATE_TIME)
         stats.addDrinker(
@@ -73,22 +73,22 @@ class RestController(
     }
 
     @GetMapping("/stats/coffee")
-    fun getCoffeeStats(): MutableList<StatsData> {
-        return stats.getAllDrinkers()
+    fun getCoffeeStats(): List<StatsData> {
+        return stats.getAllTransactionHistory()
     }
 
     @GetMapping("/stats/coffee/machine/{id}")
     fun getCoffeeStatsForMachineWithId(@PathVariable("id") id: Long): List<StatsData> {
-        return stats.getMachineData(id)
+        return stats.getUserTransactionHistory(id)
     }
 
     @GetMapping("/stats/coffee/user/{id}")
     fun getCoffeeStatsForUserWithId(@PathVariable("id") id: Long): List<StatsData> {
-        return stats.getDrinkerData(id)
+        return stats.getMachineTransactionHistory(id)
     }
 
     @GetMapping("/stats/level/user/{id}")
     fun getCaffeineStatsInPast24HourForUser(@PathVariable("id") id: Long) {
-
+        DrugPlasmaLevelHistory(id, stats, CaffeinePlasmaLevelComputationStrategy())
     }
 }

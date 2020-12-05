@@ -1,6 +1,5 @@
 package sk.mamrakm.coffeemachine.users
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
@@ -12,5 +11,4 @@ data class CoffeeDrinker(
     val login: String,
     val password: String,
     val email: String,
-    @JsonIgnore var caffeinePlasmaLevel: Int,
 )

@@ -7,6 +7,6 @@ import java.util.*
 data class StatsData(
     val coffeeDrinker: CoffeeDrinker,
     val machineUsed: Machine,
-    val milligrams: Int,
+    val milligrams: Double,
     val dateTime: Date
 )
