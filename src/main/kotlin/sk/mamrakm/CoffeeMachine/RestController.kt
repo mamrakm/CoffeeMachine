@@ -16,9 +16,16 @@ class RestController(val repository: UserRepository) {
 
     @PutMapping("/user/request")
     fun saveUser(@RequestBody user : CaffeineUser) {
+        println("${user.login} ${user.email} ${user.password}")
+        repository.save(user)
     }
 
     @PostMapping("/user/request")
     fun saveMachine(@RequestBody machine : Machine) {
+    }
+
+    @GetMapping("/coffee/buy/{user-id}/{machine-id}")
+    fun registerCoffeeBoughtByUser(@PathVariable("user-id") userId : String, @PathVariable("machine-id") machineId : String) {
+
     }
 }
