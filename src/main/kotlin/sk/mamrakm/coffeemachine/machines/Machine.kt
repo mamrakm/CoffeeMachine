@@ -1,10 +1,13 @@
 package sk.mamrakm.coffeemachine.machines
 
-import sk.mamrakm.coffeemachine.users.CoffeeDrinker
-import javax.persistence.*
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
 
 @Entity
-data class Machine(@Id @GeneratedValue(strategy = GenerationType.SEQUENCE) val id: Long, val name: String, val caffeine: Int) {
-    @OneToMany
-    val machineUsers: MutableList<CoffeeDrinker> = arrayListOf()
-}
+data class Machine(
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE) val id: Long,
+    val name: String,
+    val caffeine: Int
+)

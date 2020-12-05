@@ -6,10 +6,16 @@ import sk.mamrakm.coffeemachine.error.responses.UserNotFound
 import sk.mamrakm.coffeemachine.machines.Machine
 import sk.mamrakm.coffeemachine.repository.interfaces.CaffeineConsumerTable
 import sk.mamrakm.coffeemachine.repository.interfaces.MachineTable
+import sk.mamrakm.coffeemachine.stats.Stats
 import sk.mamrakm.coffeemachine.users.CoffeeDrinker
 
 @RestController
-class RestController(val coffeeConsumers: CaffeineConsumerTable, val machines: MachineTable) {
+class RestController(val coffeeConsumers: CaffeineConsumerTable, val machines: MachineTable, val stats: Stats) {
+
+    @GetMapping("/machine")
+    fun getAllMachines(): MutableList<Machine> {
+        return machines.findAll()
+    }
 
     @PutMapping("/user/request")
     fun saveUser(@RequestBody user: CoffeeDrinker): Long {
@@ -22,13 +28,12 @@ class RestController(val coffeeConsumers: CaffeineConsumerTable, val machines: M
     }
 
     @GetMapping("/coffee/buy/{user-id}/{machine-id}")
-    fun registerCoffeeBoughtByUser(
+    fun registerCoffeeBoughtByUserCurrentTime(
         @PathVariable("user-id") userId: Long,
         @PathVariable("machine-id") machineId: Long
     ) {
         val user = coffeeConsumers.findById(userId).orElseThrow { UserNotFound(userId) }
         val machine = machines.findById(machineId).orElseThrow { UserNotFound(machineId) }
-        machine.machineUsers.add(user)
     }
 
     @PutMapping("/coffee/buy/{user-id}/{machine}")
