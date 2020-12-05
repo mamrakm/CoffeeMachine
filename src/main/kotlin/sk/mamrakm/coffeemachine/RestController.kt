@@ -48,7 +48,7 @@ class RestController(
     ) {
         val drinker = coffeeConsumers.findById(userId).orElseThrow { DrinkerNotFound(userId) }
         val machine = machines.findById(machineId).orElseThrow { DrinkerNotFound(machineId) }
-
+        drinker.caffeinePlasmaLevel += machine.caffeine
         val dateTime = LocalDateTime.now()
         dateTime.format(DateTimeFormatter.ISO_DATE_TIME)
         stats.addDrinker(
@@ -69,7 +69,7 @@ class RestController(
     ) {
         val drinker = coffeeConsumers.findById(userId).orElseThrow { DrinkerNotFound(userId) }
         val machine = machines.findById(machineId).orElseThrow { DrinkerNotFound(machineId) }
-        stats.addDrinker(StatsData(drinker, machine, machine.caffeine, buyCoffeeFromMachine.timestamp as Date))
+        stats.addDrinker(StatsData(drinker, machine, machine.caffeine, buyCoffeeFromMachine.timestamp))
     }
 
     @GetMapping("/stats/coffee")
@@ -78,17 +78,17 @@ class RestController(
     }
 
     @GetMapping("/stats/coffee/machine/{id}")
-    fun getCoffeeStatsForMachineWithId(@PathVariable("id") id: Int) {
-
+    fun getCoffeeStatsForMachineWithId(@PathVariable("id") id: Long): List<StatsData> {
+        return stats.getMachineData(id)
     }
 
     @GetMapping("/stats/coffee/user/{id}")
-    fun getCoffeeStatsForUserWithId(@PathVariable("id") id: Int) {
-
+    fun getCoffeeStatsForUserWithId(@PathVariable("id") id: Long): List<StatsData> {
+        return stats.getDrinkerData(id)
     }
 
     @GetMapping("/stats/level/user/{id}")
-    fun getCaffeineStatsInPast24HourForUser(@PathVariable("id") id: Int) {
+    fun getCaffeineStatsInPast24HourForUser(@PathVariable("id") id: Long) {
 
     }
 }
