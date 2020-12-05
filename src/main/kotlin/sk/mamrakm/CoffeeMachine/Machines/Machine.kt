@@ -5,4 +5,4 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 
 @Entity
-data class Machine(@Id @GeneratedValue val id: Long? = null, val name: String, val mgPerCup: Int)
+data class Machine(@Id @GeneratedValue val id: Long? = null, val name: String, val caffeine: Int)

@@ -7,7 +7,7 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 
 @Entity
-class CaffeineUser(
+data class CaffeineUser(
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE) val id: Long? = null,
     val login: String,
     val password: String,
