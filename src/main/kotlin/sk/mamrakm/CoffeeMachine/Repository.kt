@@ -15,10 +15,7 @@ class Repository {
     @Bean
     fun initDatabase(repository: UserRepository): CommandLineRunner {
         return CommandLineRunner {
-            log.info("Preloading ${repository.save(CaffeineUser("Atest","testpassword1", "tes@1.com"))}")
-            log.info("Preloading ${repository.save(CaffeineUser("Btest","testpassword2", "tes@2.com"))}")
-            log.info(repository.findById(1).get().id.toString())
-            log.info(repository.findById(2).get().id.toString())
+            log.info("Loading Caffeine machine application")
         }
     }
 }

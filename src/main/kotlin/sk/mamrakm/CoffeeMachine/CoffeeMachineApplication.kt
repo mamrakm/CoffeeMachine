@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class CoffeeMachineApplication
 
 fun main(args: Array<String>) {
-	runApplication<CoffeeMachineApplication>(*args)
+    runApplication<CoffeeMachineApplication>(*args)
 }
