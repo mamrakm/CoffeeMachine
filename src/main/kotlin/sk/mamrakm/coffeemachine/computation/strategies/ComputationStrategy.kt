@@ -1,4 +1,4 @@
-package sk.mamrakm.coffeemachine.repository.interfaces
+package sk.mamrakm.coffeemachine.computation.strategies
 
 import java.time.LocalDateTime
 

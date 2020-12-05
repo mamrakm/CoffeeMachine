@@ -1,4 +1,4 @@
-package sk.mamrakm.coffeemachine.repository.interfaces
+package sk.mamrakm.coffeemachine.stats
 
 import sk.mamrakm.coffeemachine.machines.Machine
 import sk.mamrakm.coffeemachine.users.CoffeeDrinker

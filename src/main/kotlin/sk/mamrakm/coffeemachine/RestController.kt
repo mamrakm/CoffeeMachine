@@ -2,13 +2,14 @@ package sk.mamrakm.coffeemachine
 
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.bind.annotation.RestController
+import sk.mamrakm.coffeemachine.computation.strategies.CaffeinePlasmaLevelComputationStrategy
 import sk.mamrakm.coffeemachine.error.responses.DrinkerNotFound
 import sk.mamrakm.coffeemachine.machines.Machine
 import sk.mamrakm.coffeemachine.repository.interfaces.CaffeineConsumerTable
 import sk.mamrakm.coffeemachine.repository.interfaces.MachineTable
-import sk.mamrakm.coffeemachine.repository.interfaces.StatOperations
-import sk.mamrakm.coffeemachine.repository.interfaces.StatsData
 import sk.mamrakm.coffeemachine.stats.DrugPlasmaLevelHistory
+import sk.mamrakm.coffeemachine.stats.StatOperations
+import sk.mamrakm.coffeemachine.stats.StatsData
 import sk.mamrakm.coffeemachine.users.CoffeeDrinker
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -88,7 +89,11 @@ class RestController(
     }
 
     @GetMapping("/stats/level/user/{id}")
-    fun getCaffeineStatsInPast24HourForUser(@PathVariable("id") id: Long) {
-        DrugPlasmaLevelHistory(id, stats, CaffeinePlasmaLevelComputationStrategy())
+    fun getCaffeineStatsInPast24HourForUser(@PathVariable("id") userId: Long): CoffeeDrinkerCaffeinePlasmaLevelJSON {
+        val drinker = coffeeConsumers.findById(userId).orElseThrow { DrinkerNotFound(userId) }
+        return CoffeeDrinkerCaffeinePlasmaLevelJSON(
+            drinker,
+            DrugPlasmaLevelHistory(drinker, stats, CaffeinePlasmaLevelComputationStrategy()).calculation()
+        )
     }
 }

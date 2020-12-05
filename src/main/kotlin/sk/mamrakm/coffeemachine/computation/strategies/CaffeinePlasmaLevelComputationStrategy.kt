@@ -1,6 +1,5 @@
-package sk.mamrakm.coffeemachine
+package sk.mamrakm.coffeemachine.computation.strategies
 
-import sk.mamrakm.coffeemachine.repository.interfaces.ComputationStrategy
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 

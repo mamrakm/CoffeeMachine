@@ -1,8 +1,6 @@
 package sk.mamrakm.coffeemachine.stats
 
 import org.springframework.stereotype.Component
-import sk.mamrakm.coffeemachine.repository.interfaces.StatOperations
-import sk.mamrakm.coffeemachine.repository.interfaces.StatsData
 
 @Component
 class Stats : StatOperations {
