@@ -11,12 +11,8 @@ class CaffeinePlasmaLevelComputationStrategy : ComputationStrategy {
         timeOfLastIngestion: LocalDateTime,
     ): Double {
         val currentTime = LocalDateTime.now()
-        println("timeOfLastIngestion " + timeOfLastIngestion)
-        println("currentTime: " + currentTime)
         val minutesElapsed = timeOfLastIngestion.until(currentTime, ChronoUnit.MINUTES)
-        println("minutesElapsed: " + minutesElapsed)
         val hoursElapsed = timeOfLastIngestion.until(currentTime, ChronoUnit.HOURS)
-        println("hoursElapsed: " + hoursElapsed)
 
         if (minutesElapsed < 0
             || hoursElapsed < 0) {

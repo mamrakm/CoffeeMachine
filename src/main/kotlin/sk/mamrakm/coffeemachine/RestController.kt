@@ -22,7 +22,6 @@ class RestController(
     val machines: MachineTable,
     val stats: StatOperations
 ) {
-
     @GetMapping("/machine")
     fun getAllMachines(): MutableList<Machine> {
         return machines.findAll()
