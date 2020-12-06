@@ -8,17 +8,16 @@ class CaffeinePlasmaLevelComputationStrategy : ComputationStrategy {
     override fun compute(
         amountAlreadyPresentAtIngestionTime: Double,
         ingestedAmountAtLastIngestionTime: Double,
-        timeOfLastIngestion: LocalDateTime,
+        timeOfIngestion: LocalDateTime,
+        timeOfComputation: LocalDateTime
     ): Double {
-        val currentTime = LocalDateTime.now()
-        val minutesElapsed = timeOfLastIngestion.until(currentTime, ChronoUnit.MINUTES)
-        val hoursElapsed = timeOfLastIngestion.until(currentTime, ChronoUnit.HOURS)
+        val minutesElapsed = timeOfIngestion.until(timeOfComputation, ChronoUnit.MINUTES)
+        val hoursElapsed = timeOfIngestion.until(timeOfComputation, ChronoUnit.HOURS)
 
         if (minutesElapsed < 0
             || hoursElapsed < 0) {
             throw RuntimeException("Invalid date value")
         }
-
         var halfLifes = 0
         if (minutesElapsed < 60) {
             return amountAlreadyPresentAtIngestionTime + (ingestedAmountAtLastIngestionTime * (minutesElapsed.toDouble()/60.0))

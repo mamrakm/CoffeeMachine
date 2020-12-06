@@ -6,6 +6,7 @@ interface ComputationStrategy {
     fun compute(
         amountAlreadyPresentAtIngestionTime: Double,
         ingestedAmountAtLastIngestionTime: Double,
-        timeOfLastIngestion: LocalDateTime,
+        timeOfIngestion: LocalDateTime,
+        timeOfComputation: LocalDateTime
     ): Double
 }

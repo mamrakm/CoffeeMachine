@@ -79,20 +79,24 @@ class RestController(
 
     @GetMapping("/stats/coffee/machine/{id}")
     fun getCoffeeStatsForMachineWithId(@PathVariable("id") id: Long): List<StatsData> {
-        return stats.getUserTransactionHistory(id)
+        return stats.getMachineTransactionHistory(id)
     }
 
     @GetMapping("/stats/coffee/user/{id}")
     fun getCoffeeStatsForUserWithId(@PathVariable("id") id: Long): List<StatsData> {
-        return stats.getMachineTransactionHistory(id)
+        return stats.getUserTransactionHistory(id)
     }
 
     @GetMapping("/stats/level/user/{id}")
     fun getCaffeineStatsInPast24HourForUser(@PathVariable("id") userId: Long): CoffeeDrinkerCaffeinePlasmaLevelJSON {
         val drinker = coffeeConsumers.findById(userId).orElseThrow { DrinkerNotFound(userId) }
+        val history = DrugPlasmaLevelHistory(drinker, stats, CaffeinePlasmaLevelComputationStrategy()).calculateWithOneHourGranularity()
+        for ((key, value) in history) {
+            println("hour: ${key}; caffeine levels: ${value}")
+        }
         return CoffeeDrinkerCaffeinePlasmaLevelJSON(
             drinker,
-            DrugPlasmaLevelHistory(drinker, stats, CaffeinePlasmaLevelComputationStrategy()).calculation()
+            history
         )
     }
 }
