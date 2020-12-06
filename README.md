@@ -2,7 +2,9 @@
 
 This simple application demonstrates my Kotlin and _Spring Boot_ skill through development
 of very simple HTTP REST driven application where you can added caffeine drinkers and vending
-machine and then request how much caffeine there is in blood of a specific drinker.
+machine and then request how much caffeine there is in blood of a specific drinker. This is *JUST A DEMONSTRATION PROJECT*
+It doesn't goes deep. For example there is no timezone check functionality. No unit/integration tests (may come later though).
+There is also no proper input validation etc. This project has been created in 10 hours as job application test.
 
 [Prerequisites](#Prerequisites)
 
