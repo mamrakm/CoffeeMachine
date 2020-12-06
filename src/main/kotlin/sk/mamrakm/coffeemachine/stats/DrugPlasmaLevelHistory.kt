@@ -20,18 +20,17 @@ class DrugPlasmaLevelHistory(
      * in first hour the already present amount is slowly being cleaned from the body.
      */
     fun calculateWithOneHourGranularity(): MutableMap<Long, Double> {
-        val mapHoursToCaffeineLevelsFromOldest = mutableMapOf<Long, Double>().withDefault { 0.0 }
+        val mapHoursToCaffeineLevels = mutableMapOf<Long, Double>().withDefault { 0.0 }
         for (transaction in userHistory.sortedBy { it.dateTime }) {
             val caffeineFromMachine = transaction.machineUsed.caffeine
             val dateTimeOfCoffeeConsumption =
                 transaction.dateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
-
             for (hour in 23L downTo 0L) {
                 val computationTime = LocalDateTime.now().minus(hour, ChronoUnit.HOURS)
                 if (dateTimeOfCoffeeConsumption.isBefore(computationTime)) {
-                    mapHoursToCaffeineLevelsFromOldest[hour] =
-                        mapHoursToCaffeineLevelsFromOldest.getValue(hour) + computationStrategy.compute(
-                            mapHoursToCaffeineLevelsFromOldest.getValue(hour),
+                    mapHoursToCaffeineLevels[hour] =
+                        mapHoursToCaffeineLevels.getValue(hour) + computationStrategy.compute(
+                            mapHoursToCaffeineLevels.getValue(hour),
                             caffeineFromMachine,
                             dateTimeOfCoffeeConsumption,
                             computationTime
@@ -39,6 +38,6 @@ class DrugPlasmaLevelHistory(
                 }
             }
         }
-        return mapHoursToCaffeineLevelsFromOldest
+        return mapHoursToCaffeineLevels
     }
 }
