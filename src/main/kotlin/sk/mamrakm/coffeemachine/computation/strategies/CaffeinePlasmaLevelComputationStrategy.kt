@@ -13,6 +13,9 @@ class CaffeinePlasmaLevelComputationStrategy : ComputationStrategy {
     ): Double {
         val minutesElapsed = timeOfIngestion.until(timeOfComputation, ChronoUnit.MINUTES)
         val hoursElapsed = timeOfIngestion.until(timeOfComputation, ChronoUnit.HOURS)
+        println("hoursElapsed: ${hoursElapsed}")
+        println("timeOfIngestion: ${timeOfIngestion}")
+        println("timeOfComputation: ${timeOfComputation}")
 
         if (minutesElapsed < 0
             || hoursElapsed < 0) {
@@ -27,6 +30,7 @@ class CaffeinePlasmaLevelComputationStrategy : ComputationStrategy {
                     halfLifes++
                 }
             }
+            println("halflifes: ${halfLifes}; Math.pow: ${Math.pow(0.5, halfLifes.toDouble())}")
             return (amountAlreadyPresentAtIngestionTime + ingestedAmountAtLastIngestionTime) * Math.pow(0.5, halfLifes.toDouble())
         }
     }

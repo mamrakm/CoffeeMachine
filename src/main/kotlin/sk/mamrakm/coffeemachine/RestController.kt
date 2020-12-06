@@ -91,9 +91,6 @@ class RestController(
     fun getCaffeineStatsInPast24HourForUser(@PathVariable("id") userId: Long): CoffeeDrinkerCaffeinePlasmaLevelJSON {
         val drinker = coffeeConsumers.findById(userId).orElseThrow { DrinkerNotFound(userId) }
         val history = DrugPlasmaLevelHistory(drinker, stats, CaffeinePlasmaLevelComputationStrategy()).calculateWithOneHourGranularity()
-        for ((key, value) in history) {
-            println("hour: ${key}; caffeine levels: ${value}")
-        }
         return CoffeeDrinkerCaffeinePlasmaLevelJSON(
             drinker,
             history
