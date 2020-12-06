@@ -4,8 +4,8 @@ import java.time.LocalDateTime
 
 interface ComputationStrategy {
     fun compute(
-        ingestedAmountAtLastIngestionTime: Double,
         amountAlreadyPresentAtIngestionTime: Double,
+        ingestedAmountAtLastIngestionTime: Double,
         timeOfLastIngestion: LocalDateTime,
     ): Double
 }
